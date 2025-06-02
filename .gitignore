@@ -1,5 +1,7 @@
 /generator/css/icons.css
 /generator/icons/
+/generator/fonts/
+/generator/dist/
 /generator/js/*.d.ts
 /generator/js/*.map
 /generator/js/icons.js
