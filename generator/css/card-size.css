@@ -31,10 +31,10 @@
 
 @media print {
     .page.landscape {
-        -webkit-transform: rotate(-90deg) translateX(-100%); 
+        -webkit-transform: rotate(-90deg) translateX(-100%);
         -moz-transform: rotate(-90deg) translateX(-100%);
         transform: rotate(-90deg) translateX(-100%);
-        -webkit-transform-origin: top left; 
+        -webkit-transform-origin: top left;
         -moz-transform-origin: top left;
         transform-origin: top left;
     }
@@ -68,6 +68,7 @@ page[size="25x35"] {
 .card {
     width:2.5in;
     height:3.5in;
+    margin: 2mm;
 }
 
 /* Business card size */

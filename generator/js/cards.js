@@ -15,9 +15,9 @@ function card_default_options() {
         page_columns: "3",
         page_zoom: "100",
         card_arrangement: "doublesided",
-        card_size: "2.5in,3.5in",
-        card_width: "2.5in",
-        card_height: "3.5in",
+        card_size: "Custom",
+        card_width: "70mm",
+        card_height: "120mm",
         card_count: null,
         icon_inline: true,
         rounded_corners: true,
@@ -68,11 +68,11 @@ function card_remove_tag(card, tag) {
 // ============================================================================
 
 function card_data_color_front(card_data, options) {
-    return card_data.color_front || options.default_color || "black";
+    return card_data.color_front || card_data.color || options.default_color || "black";
 }
 
 function card_data_color_back(card_data, options) {
-    return card_data.color_back || options.default_color || "black";
+    return card_data.color_back || card_data.color || options.default_color || "black";
 }
 
 function card_data_icon_front(card_data, options) {
@@ -87,7 +87,7 @@ function card_data_split_params(value) {
     return value.split("|").map(function (str) { return str.trim(); });
 }
 
-function card_element_class(card_data, options) {    
+function card_element_class(card_data, options) {
     var card_font_size_class = card_size_class(card_data, options);
     return 'card-element card-description-line' + card_font_size_class;
 }
@@ -333,7 +333,7 @@ function card_element_p2e_trait(params, card_data, options) {
 
 function card_element_p2e_activity(params, card_data, options) {
     var card_font_size_class = card_size_class(card_data, options);
-    
+
     var activity_icon;
     if (params[1] == '0') {
         activity_icon = 'icon-p2e-free-action';
@@ -345,7 +345,7 @@ function card_element_p2e_activity(params, card_data, options) {
         activity_icon = 'icon-p2e-3-actions';
     } else if (params[1] == 'R') {
         activity_icon = 'icon-p2e-reaction';
-    } 
+    }
 
     var result = "";
     result += '<div class="card-element card-property-line' + card_font_size_class + '">';
@@ -463,7 +463,7 @@ var card_element_generators = {
 
 function card_generate_contents(contents, card_data, options) {
     var result = "";
-   
+
     var html = contents.map(function (value) {
         var parts = card_data_split_params(value);
         var element_name = parts[0];
@@ -555,17 +555,26 @@ function add_size_to_style(style, width, height) {
     return style;
 }
 
-function add_margin_to_style(style, options) {
+function add_padding_to_style(style, options) {
     // style string example ----> `style="color:red;"`
-    style = style.slice(0, -1) + 'margin: -webkit-calc(' + options.back_bleed_height + ' / 2) -webkit-calc(' + options.back_bleed_width + ' / 2);' + style.slice(-1);
+    style = `${style.slice(0, -1)}padding: ${options.back_bleed_height} ${options.back_bleed_width};${style.slice(-1)}`;
     return style;
 }
 
 function card_generate_front(data, options) {
     var color = card_data_color_front(data, options);
     var style_color = card_generate_color_style(color, options);
-    var card_size_style = add_size_to_style(style_color, options.card_width, options.card_height);
-    var card_style = add_margin_to_style(card_size_style, options);
+
+    var width = options.card_width;
+    var height = options.card_height;
+    var back_bleed_width = options.back_bleed_width;
+    var back_bleed_height = options.back_bleed_height;
+
+    var card_width = "calc(" + width + " + " + back_bleed_width + ")";
+    var card_height = "calc(" + height + " + " + back_bleed_height + ")";
+
+    var card_size_style = add_size_to_style(style_color, card_width, card_height);
+    var card_style = add_padding_to_style(card_size_style, options);
 
     var result = "";
     result += '<div class="card ' + (options.rounded_corners ? 'rounded-corners' : '') + '" ' + card_style + '>';
@@ -588,15 +597,15 @@ function card_generate_back(data, options) {
     var back_bleed_width = options.back_bleed_width;
     var back_bleed_height = options.back_bleed_height;
 
-    var card_width = "-webkit-calc(" + width + " + " + back_bleed_width + ")";
-    var card_height = "-webkit-calc(" + height + " + " + back_bleed_height + ")";
+    var card_width = "calc(" + width + " + " + back_bleed_width + ")";
+    var card_height = "calc(" + height + " + " + back_bleed_height + ")";
 
     var card_style = add_size_to_style(style_color, card_width, card_height);
 
     var $tmpCardContainer = $('<div style="position:absolute;visibility:hidden;pointer-events:none;"></div>');
     var $tmpCard = $('<div class="card" ' + card_style + '><div class="card-back"><div class="card-back-inner"><div class="card-back-icon"></div></div></div></div>');
     $('#preview-container').append($tmpCardContainer.append($tmpCard));
-    
+
     var $tmpCardInner = $tmpCard.find('.card-back-inner');
     var innerWidth = $tmpCardInner.width();
     var innerHeight = $tmpCardInner.height();
@@ -729,7 +738,7 @@ function card_pages_wrap(pages, options) {
         // style += 'padding-right: calc( (' + (parsedPageWidth.number + parsedPageWidth.mu) + ' - ' + options.card_width + ' * ' + options.page_columns + ' ) / 2);';
         style += '"';
         style = add_size_to_style(style, parsedPageWidth.number + parsedPageWidth.mu, parsedPageHeight.number + parsedPageHeight.mu);
-        
+
         var z = options.page_zoom / 100;
         // var zoomWidth = parsedPageWidth.number * z;
         // var zoomHeight = parsedPageHeight.number * z;
