@@ -15,7 +15,10 @@
   "scripts": {
     "start": "vite ./generator",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node resources/tools/update-icons.js && node resources/tools/update-fonts.js && vite build ./generator"
+    "build": "npm run build:icons && npm run build:fonts && npm run build:vite",
+    "build:icons": "node resources/tools/update-icons.js",
+    "build:fonts": "node resources/tools/update-fonts.js",
+    "build:vite": "vite build"
   },
   "repository": {
     "type": "git",

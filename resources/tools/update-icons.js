@@ -6,10 +6,10 @@ const yauzl = require("yauzl");
 const downloadUrl = "https://game-icons.net/archives/svg/zip/ffffff/transparent/game-icons.net.svg.zip";
 const tempDir = "./temp";
 const tempFilePath = tempDir + "/temp" + Date.now() + ".zip";
-const iconDir = "./generator/icons";
+const iconDir = "./generator/public/icons";
 const customIconDir = "./resources/custom-icons";
-const cssPath = "./generator/css/icons.css";
-const jsPath = "./generator/js/icons.js";
+const cssPath = "./generator/public/css/icons.css";
+const jsPath = "./generator/public/js/icons.js";
 
 
 // ----------------------------------------------------------------------------
@@ -142,14 +142,14 @@ function cleanDirectory(src) {
             if (err) { reject(); return; }
             resolve();
         });
-    }); 
+    });
 }
 
 function removeFile(filePath) {
     console.log("  Removing file...");
     return new Promise((resolve, _) => {
         fse.remove(filePath, () => resolve());
-    }); 
+    });
 }
 
 function copyAll(src, dest) {

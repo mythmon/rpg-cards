@@ -10,7 +10,7 @@ const cssFileName = "game-icons.css";
 const eotFileName = "game-icons.eot";
 const ttfFileName = "game-icons.ttf";
 const woffFileName = "game-icons.woff";
-const destDir = "./generator/fonts";
+const destDir = "./generator/public/fonts";
 
 // ----------------------------------------------------------------------------
 // Download
@@ -84,21 +84,21 @@ function cleanDirectory(src) {
             if (err) { reject(); return; }
             resolve();
         });
-    }); 
+    });
 }
 
 function moveFile(src, dst) {
     console.log("  Moving file...");
     return new Promise((resolve, _) => {
         fse.move(src, dst, () => resolve());
-    }); 
+    });
 }
 
 function removeFile(filePath) {
     console.log("  Removing file...");
     return new Promise((resolve, _) => {
         fse.remove(filePath, () => resolve());
-    }); 
+    });
 }
 
 function copyAll(src, dest) {

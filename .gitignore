@@ -1,10 +1,10 @@
-/generator/css/icons.css
-/generator/icons/
-/generator/fonts/
+/generator/public/css/icons.css
+/generator/public/icons/
+/generator/public/fonts/
 /generator/dist/
-/generator/js/*.d.ts
-/generator/js/*.map
-/generator/js/icons.js
+/generator/public/js/*.d.ts
+/generator/public/js/*.map
+/generator/public/js/icons.js
 /node_modules/
 /package-lock.json
 /temp.zip
